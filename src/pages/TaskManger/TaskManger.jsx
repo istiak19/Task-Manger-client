@@ -68,7 +68,7 @@ const TaskManager = () => {
     });
     
 
-    if (isLoading) return <div>Loading tasks...</div>;
+    if (isLoading) return <div className='text-center text-9xl mt-10'><span className="loading loading-ring loading-lg"></span></div>;
     if (error) return <div>Error loading tasks: {error.message}</div>;
     if (!tasks) return <div>No tasks found</div>;
 

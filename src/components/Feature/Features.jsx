@@ -1,27 +1,29 @@
-import React from 'react';
-
 const Features = () => {
-  return (
-    <section className="py-16 bg-gray-100">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-8">Why Choose Us?</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="feature-card">
-            <h3 className="text-xl font-semibold mb-4">Organize Tasks</h3>
-            <p className="text-gray-700">Easily categorize your tasks into To-Do, In Progress, and Completed.</p>
-          </div>
-          <div className="feature-card">
-            <h3 className="text-xl font-semibold mb-4">Collaborate</h3>
-            <p className="text-gray-700">Share tasks with your team and track progress in real time.</p>
-          </div>
-          <div className="feature-card">
-            <h3 className="text-xl font-semibold mb-4">Stay On Track</h3>
-            <p className="text-gray-700">Set deadlines and receive reminders to ensure you stay on top of your work.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+    return (
+        <section id="features" className="py-20 bg-white text-center">
+            <div className="max-w-screen-lg mx-auto">
+                <h2 className="text-3xl font-semibold">Features</h2>
+                <p className="mt-4 text-lg text-gray-700">Discover all the features that make task management simple and efficient.</p>
+
+                <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <div className="bg-gray-100 p-8 rounded-lg shadow-md">
+                        <h3 className="text-2xl font-semibold text-indigo-600">Task Categories</h3>
+                        <p className="mt-4">Organize tasks into categories like 'To-Do', 'In Progress', and 'Done' for better management.</p>
+                    </div>
+
+                    <div className="bg-gray-100 p-8 rounded-lg shadow-md">
+                        <h3 className="text-2xl font-semibold text-indigo-600">Real-Time Sync</h3>
+                        <p className="mt-4">All your tasks are synced in real-time, so you're always up-to-date on your progress.</p>
+                    </div>
+
+                    <div className="bg-gray-100 p-8 rounded-lg shadow-md">
+                        <h3 className="text-2xl font-semibold text-indigo-600">Drag & Drop</h3>
+                        <p className="mt-4">Easily move tasks between categories with a simple drag-and-drop interface.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 };
 
 export default Features;
