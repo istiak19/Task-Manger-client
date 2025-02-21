@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const AddTask = () => {
     const navigate = useNavigate()
@@ -20,6 +21,13 @@ const AddTask = () => {
         const res = await axios.post('https://taskmanager-server-three.vercel.app/tasks', taskData);
         const data = res.data;
         if (data.insertedId) {
+            Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "Task create successful!",
+                showConfirmButton: false,
+                timer: 1500
+              });
             navigate('/task');
         }
     };

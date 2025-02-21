@@ -8,9 +8,9 @@ const Navbar = () => {
 
     const links = (
         <>
-            <li><NavLink to="/">Home</NavLink></li>
-            <li><NavLink to="/task">Task</NavLink></li>
-            <li><NavLink to="/add-task">Add Task</NavLink></li>
+            <li><NavLink className={({ isActive }) => (isActive ? "!text-black font-semibold  !bg-transparent" : "text-white")} to="/">Home</NavLink></li>
+            <li><NavLink className={({ isActive }) => (isActive ? "!text-black font-semibold  !bg-transparent" : "text-white")} to="/task">Task</NavLink></li>
+            <li><NavLink className={({ isActive }) => (isActive ? "!text-black font-semibold  !bg-transparent" : "text-white")} to="/add-task">Add Task</NavLink></li>
         </>
     );
 
@@ -20,15 +20,13 @@ const Navbar = () => {
                 // Optionally add a success message
             })
             .catch((error) => {
-                console.log(error.message);
+                // console.log(error.message);
             });
     };
 
     return (
         <div className="navbar bg-[#3B82F6] px-3 sm:px-10 lg:px-14">
-            {/* Navbar start */}
             <div className="navbar-start">
-                {/* Mobile dropdown toggle button */}
                 <div className="dropdown lg:hidden">
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -50,32 +48,32 @@ const Navbar = () => {
                             />
                         </svg>
                     </button>
-                    {/* Mobile menu */}
-                    {isMenuOpen && (
-                        <ul
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-                            onClick={() => setIsMenuOpen(false)} // Close the menu when clicked
-                        >
-                            {links}
-                        </ul>
-                    )}
+                    {
+                        isMenuOpen && (
+                            <ul
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                {links}
+                            </ul>
+                        )
+                    }
                 </div>
                 <Link to="/" className="text-xl text-white">
                     Task Manager
                 </Link>
             </div>
-            {/* Navbar end */}
             <div className="navbar-end">
-                {/* Desktop menu */}
                 <ul className="menu menu-horizontal px-1 hidden lg:flex">
                     {links}
                 </ul>
-                {/* User authentication */}
-                {user ? (
-                    <button onClick={handleSignOut} className="btn">Logout</button>
-                ) : (
-                    <Link to="/login" className="btn">Login</Link>
-                )}
+                {
+                    user ? (
+                        <button onClick={handleSignOut} className="btn">Logout</button>
+                    ) : (
+                        <Link to="/login" className="btn">Login</Link>
+                    )
+                }
             </div>
         </div>
     );
