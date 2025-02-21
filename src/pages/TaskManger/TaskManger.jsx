@@ -4,7 +4,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useState } from 'react';
 
 const fetchTasks = async () => {
-    const res = await fetch('http://localhost:5000/tasks');
+    const res = await fetch('https://taskmanager-server-three.vercel.app/tasks');
     if (!res.ok) throw new Error('Failed to fetch tasks');
     const data = await res.json();
     return {
@@ -20,14 +20,14 @@ const TaskManager = () => {
 
     const deleteMutation = useMutation({
         mutationFn: async (taskId) => {
-            await fetch(`http://localhost:5000/tasks/${taskId}`, { method: 'DELETE' });
+            await fetch(`https://taskmanager-server-three.vercel.app/tasks/${taskId}`, { method: 'DELETE' });
         },
         onSuccess: () => queryClient.invalidateQueries(['tasks']),
     });
 
     const updateMutation = useMutation({
         mutationFn: async ({ taskId, updatedData }) => {
-            await fetch(`http://localhost:5000/tasks/${taskId}`, {
+            await fetch(`https://taskmanager-server-three.vercel.app/tasks/${taskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedData),
@@ -38,28 +38,35 @@ const TaskManager = () => {
 
     const moveMutation = useMutation({
         mutationFn: async ({ taskId, fromCategory, toCategory }) => {
-            await fetch(`http://localhost:5000/tasks/move`, {
+            const updateInfo = { taskId, fromCategory, toCategory }; // Ensure taskId is sent
+            await fetch(`https://taskmanager-server-three.vercel.app/tasks/move/${taskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ taskId, fromCategory, toCategory }),
+                body: JSON.stringify(updateInfo),
             });
         },
         onMutate: async ({ taskId, fromCategory, toCategory }) => {
             await queryClient.cancelQueries(['tasks']);
             const previousTasks = queryClient.getQueryData(['tasks']);
-            const taskToMove = previousTasks[fromCategory].find(task => task._id === taskId);
-            queryClient.setQueryData(['tasks'], {
-                ...previousTasks,
-                [fromCategory]: previousTasks[fromCategory].filter(task => task._id !== taskId),
-                [toCategory]: [...previousTasks[toCategory], taskToMove],
-            });
+            const taskToMove = previousTasks[fromCategory]?.find(task => task._id === taskId);
+            if (taskToMove) {
+                queryClient.setQueryData(['tasks'], {
+                    ...previousTasks,
+                    [fromCategory]: previousTasks[fromCategory].filter(task => task._id !== taskId),
+                    [toCategory]: [...previousTasks[toCategory], taskToMove],
+                });
+            }
+    
             return { previousTasks };
         },
         onError: (error, variables, context) => {
             queryClient.setQueryData(['tasks'], context.previousTasks);
         },
-        onSettled: () => queryClient.invalidateQueries(['tasks']),
+        onSettled: () => {
+            queryClient.invalidateQueries(['tasks']);
+        },
     });
+    
 
     if (isLoading) return <div>Loading tasks...</div>;
     if (error) return <div>Error loading tasks: {error.message}</div>;
@@ -102,7 +109,7 @@ const TaskList = ({ category, tasks, onDelete, onMove, onUpdate }) => {
             ) : (
                 tasks.map((task, index) => (
                     <Task
-                        key={task._id}
+                        key={task?._id}
                         task={task}
                         category={category}
                         onDelete={onDelete}
@@ -119,19 +126,19 @@ const TaskList = ({ category, tasks, onDelete, onMove, onUpdate }) => {
 const Task = ({ task, category, onDelete, onMove, onUpdate, index }) => {
     const [, drag] = useDrag({
         type: 'TASK',
-        item: { id: task._id, index, category },
+        item: { id: task?._id, index, category },
     });
 
     const [isEditing, setIsEditing] = useState(false);
-    const [editedTitle, setEditedTitle] = useState(task.title);
-    const [editedDescription, setEditedDescription] = useState(task.description);
+    const [editedTitle, setEditedTitle] = useState(task?.title);
+    const [editedDescription, setEditedDescription] = useState(task?.description);
 
     const handleEdit = () => {
-        onUpdate({ taskId: task._id, updatedData: { title: editedTitle, description: editedDescription } });
+        onUpdate({ taskId: task?._id, updatedData: { title: editedTitle, description: editedDescription } });
         setIsEditing(false);
     };
 
-    const formattedTime = new Date(task.timestamp).toLocaleString();
+    const formattedTime = new Date(task?.timestamp).toLocaleString();
 
     return (
         <div ref={drag} className="bg-white p-3 rounded-md shadow-md mb-2 cursor-pointer hover:bg-gray-200 transition duration-300">
@@ -156,12 +163,12 @@ const Task = ({ task, category, onDelete, onMove, onUpdate, index }) => {
                 </div>
             ) : (
                 <>
-                    <h3 className="font-semibold text-lg sm:text-xl">{task.title}</h3>
-                    <p className="text-gray-600 text-sm sm:text-base"><span className='font-semibold'>Description:</span> {task.description}</p>
+                    <h3 className="font-semibold text-lg sm:text-xl">{task?.title}</h3>
+                    <p className="text-gray-600 text-sm sm:text-base"><span className='font-semibold'>Description:</span> {task?.description}</p>
                     <p className="text-gray-500 text-xs sm:text-sm"><span className='font-semibold'>Created:</span> {formattedTime}</p>
                     <div className="flex gap-2 mt-2 flex-col sm:flex-row">
                         <button className="text-blue-500 hover:underline" onClick={() => setIsEditing(true)}>Edit</button>
-                        <button className="text-red-500 hover:underline" onClick={() => onDelete(task._id)}>Delete</button>
+                        <button className="text-red-500 hover:underline" onClick={() => onDelete(task?._id)}>Delete</button>
                     </div>
                 </>
             )}

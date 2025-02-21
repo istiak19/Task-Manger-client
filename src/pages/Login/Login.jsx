@@ -15,7 +15,7 @@ const Login = () => {
                     name: result.user.displayName,
                     userId: result.user.uid,
                 };
-                const res = axios.post('http://localhost:5000/users', userInfo)
+                const res = axios.post('https://taskmanager-server-three.vercel.app/users', userInfo)
                 const data = res.data;
                 console.log(data)
                 navigate('/');

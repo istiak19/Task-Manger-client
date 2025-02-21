@@ -1,8 +1,36 @@
-# React + Vite
+# Task Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and efficient task management application built with React, Firebase, and TailwindCSS.
 
-Currently, two official plugins are available:
+## 🔗 Live Demo
+[Task Manager](https://task-manger-cb5df.web.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Technologies Used
+- **React 19** - UI Library  
+- **React Router 7** - Client-side routing  
+- **Firebase** - Authentication & Database  
+- **React Query** - Data fetching & caching  
+- **Axios** - HTTP client  
+- **TailwindCSS 4** - Styling  
+- **Date-fns** - Date manipulation  
+- **React DnD** - Drag-and-drop functionality  
+- **Vite** - Build tool  
+
+## 📦 Dependencies
+### Production Dependencies:
+- `@tailwindcss/vite` `@tanstack/react-query` `axios` `date-fns`  
+- `firebase` `react` `react-dnd` `react-dnd-html5-backend`  
+- `react-dom` `react-router` `tailwindcss`
+
+### Development Dependencies:
+- `@eslint/js` `@types/react` `@types/react-dom` `@vitejs/plugin-react`  
+- `daisyui` `eslint` `eslint-plugin-react` `eslint-plugin-react-hooks`  
+- `eslint-plugin-react-refresh` `globals` `vite`
+
+## 🛠 Installation
+Follow these steps to set up the project locally:
+
+1. **Clone the repository:**
+   ```sh
+   git clone <repository-url>
+   cd client

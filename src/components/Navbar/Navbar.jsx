@@ -9,6 +9,7 @@ const Navbar = () => {
     const links = (
         <>
             <li><NavLink to="/">Home</NavLink></li>
+            <li><NavLink to="/task">Task</NavLink></li>
             <li><NavLink to="/add-task">Add Task</NavLink></li>
         </>
     );

@@ -1,6 +1,8 @@
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const AddTask = () => {
+    const navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -15,9 +17,11 @@ const AddTask = () => {
             category,
             timestamp: time,
         };
-        const res = await axios.post('http://localhost:5000/tasks', taskData);
+        const res = await axios.post('https://taskmanager-server-three.vercel.app/tasks', taskData);
         const data = res.data;
-        console.log(data)
+        if (data.insertedId) {
+            navigate('/task');
+        }
     };
 
     return (
